@@ -14,7 +14,10 @@ usersRouter.post('/', async (request, response) => {
       password,
     });
 
-    return response.status(201).json(user);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: userPassword, ...userWithoutPassword } = user;
+
+    return response.status(201).json(userWithoutPassword);
   } catch (err) {
     return response.status(400).json({ message: err.message });
   }
