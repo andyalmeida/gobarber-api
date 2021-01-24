@@ -9,7 +9,7 @@ sessionsRouter.post('/', async (request, response) => {
 
     const createSessionService = new CreateSessionService();
 
-    const { user } = await createSessionService.execute({
+    const { user, token } = await createSessionService.execute({
       email,
       password,
     });
@@ -17,7 +17,10 @@ sessionsRouter.post('/', async (request, response) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: userPassword, ...userWithoutPassword } = user;
 
-    return response.status(201).json({ user: userWithoutPassword });
+    return response.status(201).json({
+      user: userWithoutPassword,
+      token,
+    });
   } catch (err) {
     return response.status(400).json({ message: err.message });
   }
