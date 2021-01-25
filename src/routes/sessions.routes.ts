@@ -4,26 +4,21 @@ import CreateSessionService from '../services/CreateSessionService';
 const sessionsRouter = Router();
 
 sessionsRouter.post('/', async (request, response) => {
-  try {
-    const { email, password } = request.body;
+  const { email, password } = request.body;
 
-    const createSessionService = new CreateSessionService();
+  const createSessionService = new CreateSessionService();
 
-    const { user, token } = await createSessionService.execute({
-      email,
-      password,
-    });
+  const { user, token } = await createSessionService.execute({
+    email,
+    password,
+  });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password: userPassword, ...userWithoutPassword } = user;
+  const { password: _, ...userWithoutPassword } = user;
 
-    return response.status(201).json({
-      user: userWithoutPassword,
-      token,
-    });
-  } catch (err) {
-    return response.status(400).json({ message: err.message });
-  }
+  return response.status(201).json({
+    user: userWithoutPassword,
+    token,
+  });
 });
 
 export default sessionsRouter;
